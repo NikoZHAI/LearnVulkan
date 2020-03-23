@@ -1,0 +1,3 @@
+[submodule "Vulkan-API-Tutorials"]
+	path = Vulkan-API-Tutorials
+	url = https://github.com/Niko40/Vulkan-API-Tutorials
