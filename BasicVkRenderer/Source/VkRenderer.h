@@ -28,8 +28,7 @@ public:
      * 
      * @return VkInstance 
      */
-    VkInstance GetInstance() const
-    { return m_instance; }
+    VkInstance GetInstance() const;
 
     
     /**
@@ -37,8 +36,7 @@ public:
      * 
      * @return VkPhysicalDevice 
      */
-    VkPhysicalDevice GetGpu() const
-    { return m_gpu; }
+    VkPhysicalDevice GetGpu() const;
 
 
     /**
@@ -46,8 +44,7 @@ public:
      * 
      * @return VkDevice 
      */
-    VkDevice GetDevice() const
-    { return m_device; }
+    VkDevice GetDevice() const;
 
 
     /**
@@ -55,8 +52,7 @@ public:
      * 
      * @return const VkPhysicalDeviceProperties* 
      */
-    const VkPhysicalDeviceProperties* GetGpuProps() const
-    { return &m_gpu_props;}
+    const VkPhysicalDeviceProperties* GetGpuProps() const;
 
 
     /**
@@ -64,8 +60,7 @@ public:
      * 
      * @return std::size_t 
      */
-    std::size_t VkLayerCount() const
-    { return m_instance_layers.size(); }
+    std::size_t VkLayerCount() const;
     
 
     /**
@@ -73,8 +68,7 @@ public:
      * 
      * @return const char* 
      */
-    const char* const* VkLayerNames() const
-    { return m_instance_layers.empty()? nullptr : m_instance_layers.data(); }
+    const char* const* VkLayerNames() const;
 
 
     /**
@@ -82,8 +76,7 @@ public:
      * 
      * @return std::size_t 
      */
-    std::size_t VkExtensionCount() const
-    { return m_instance_layers.size(); }
+    std::size_t VkExtensionCount() const;
 
 
     /**
@@ -91,8 +84,7 @@ public:
      * 
      * @return const char* 
      */
-    const char* const * VkExtensionNames() const
-    { return m_instance_extensions.empty()? nullptr : m_instance_extensions.data(); }
+    const char* const * VkExtensionNames() const;
 
 
 protected:
@@ -121,9 +113,10 @@ protected:
     std::vector<const char*>    m_device_extensions;
 
     // debug info
-    VkDebugReportCallbackEXT            m_debug_report                  = VK_NULL_HANDLE;
-    VkDebugReportCallbackCreateInfoEXT  m_debug_callback_create_info    = {};
-
+    VkDebugReportCallbackEXT                m_debug_report                          = VK_NULL_HANDLE;
+    VkDebugReportCallbackCreateInfoEXT      m_debug_callback_create_info            = {};
+    PFN_vkCreateDebugReportCallbackEXT      m_fvkCreateDebugReportCallbackEXT       = nullptr;
+    PFN_vkDestroyDebugReportCallbackEXT     m_fvkDestroyDebugReportCallbackEXT      = nullptr;
 };
 
 

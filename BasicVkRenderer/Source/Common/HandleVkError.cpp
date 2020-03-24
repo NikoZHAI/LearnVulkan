@@ -15,7 +15,7 @@
  */
 void HandleVkError( VkResult result )
 {
-	if( result < 0 )
+	if( result >= 0 )
 		return;
 
 	std::stringstream msg{ "Vulkan runtime error: \n\t" };
