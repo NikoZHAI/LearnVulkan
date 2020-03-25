@@ -146,6 +146,10 @@ void VkRenderer::InitInstance( const VkApplicationInfo *app_info )
 }
 
 
+/**
+ * @brief Destroy initiated Vulkan instances
+ * 
+ */
 void VkRenderer::DestroyInstance()
 {
     vkDestroyInstance( m_instance, nullptr );
@@ -153,6 +157,10 @@ void VkRenderer::DestroyInstance()
 }
 
 
+/**
+ * @brief Initiate Vulkan devices
+ * 
+ */
 void VkRenderer::InitDevice()
 {
     // Fetch and enumerate gpu information
@@ -253,6 +261,10 @@ void VkRenderer::InitDevice()
 }
 
 
+/**
+ * @brief Destroy Vulkan devices
+ * 
+ */
 void VkRenderer::DestroyDevice()
 {
     vkDestroyDevice( m_device, nullptr );
@@ -260,6 +272,10 @@ void VkRenderer::DestroyDevice()
 }
 
 
+/**
+ * @brief The Vulkan debug info callback
+ * 
+ */
 VKAPI_ATTR VkBool32 VKAPI_CALL
 VulkanDebugCallback(
 	VkDebugReportFlagsEXT		flags,
@@ -303,6 +319,10 @@ VulkanDebugCallback(
 }
 
 
+/**
+ * @brief Setup vulkan debug info
+ * 
+ */
 void VkRenderer::SetupDebug()
 {
     m_debug_callback_create_info.sType              = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
@@ -339,6 +359,10 @@ void VkRenderer::SetupDebug()
 }
 
 
+/**
+ * @brief Initialize Vulkan debug info
+ * 
+ */
 void VkRenderer::InitDebugInfo()
 {
     // fetch function pointers
@@ -352,6 +376,10 @@ void VkRenderer::InitDebugInfo()
 }
 
 
+/**
+ * @brief Destroy initiated Vulkan debug info
+ * 
+ */
 void VkRenderer::DestroyDebugInfo()
 {
     m_fvkDestroyDebugReportCallbackEXT( m_instance, m_debug_report, nullptr );
