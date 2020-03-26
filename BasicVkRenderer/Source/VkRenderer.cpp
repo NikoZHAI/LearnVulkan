@@ -377,7 +377,7 @@ void VkRenderer::InitDebugInfo()
 
 
 /**
- * @brief Destroy initiated Vulkan debug info
+ * @brief Destroy Vulkan debug info
  * 
  */
 void VkRenderer::DestroyDebugInfo()

@@ -6,7 +6,7 @@
 #include <vulkan/vulkan.h>
 
 
-VkApplicationInfo
+inline VkApplicationInfo
 CreateVkAppInfo(
     const char *app_name = "",
     uint32_t app_version = VK_MAKE_VERSION( 0, 1, 0 ),
