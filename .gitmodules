@@ -1,3 +1,75 @@
 [submodule "Vulkan-API-Tutorials"]
 	path = Vulkan-API-Tutorials
 	url = https://github.com/Niko40/Vulkan-API-Tutorials
+[submodule "nvpro-samples/--recursive"]
+	path = nvpro-samples/--recursive
+	url = https://github.com/nvpro-samples/shared_sources.git
+[submodule "nvpro-samples/shared_sources"]
+	path = nvpro-samples/shared_sources
+	url = https://github.com/nvpro-samples/shared_sources.git
+[submodule "nvpro-samples/shared_external"]
+	path = nvpro-samples/shared_external
+	url = https://github.com/nvpro-samples/shared_external.git
+[submodule "nvpro-samples/gl_cadscene_rendertechniques"]
+	path = nvpro-samples/gl_cadscene_rendertechniques
+	url = https://github.com/nvpro-samples/gl_cadscene_rendertechniques.git
+[submodule "nvpro-samples/gl_commandlist_basic"]
+	path = nvpro-samples/gl_commandlist_basic
+	url = https://github.com/nvpro-samples/gl_commandlist_basic.git
+[submodule "nvpro-samples/gl_dynamic_lod"]
+	path = nvpro-samples/gl_dynamic_lod
+	url = https://github.com/nvpro-samples/gl_dynamic_lod.git
+[submodule "nvpro-samples/gl_multicast"]
+	path = nvpro-samples/gl_multicast
+	url = https://github.com/nvpro-samples/gl_multicast.git
+[submodule "nvpro-samples/gl_path_rendering_CMYK"]
+	path = nvpro-samples/gl_path_rendering_CMYK
+	url = https://github.com/nvpro-samples/gl_path_rendering_CMYK.git
+[submodule "nvpro-samples/gl_occlusion_culling"]
+	path = nvpro-samples/gl_occlusion_culling
+	url = https://github.com/nvpro-samples/gl_occlusion_culling.git
+[submodule "nvpro-samples/gl_ssao"]
+	path = nvpro-samples/gl_ssao
+	url = https://github.com/nvpro-samples/gl_ssao.git
+[submodule "nvpro-samples/gl_vk_chopper"]
+	path = nvpro-samples/gl_vk_chopper
+	url = https://github.com/nvpro-samples/gl_vk_chopper.git
+[submodule "nvpro-samples/gl_vk_supersampled"]
+	path = nvpro-samples/gl_vk_supersampled
+	url = https://github.com/nvpro-samples/gl_vk_supersampled.git
+[submodule "nvpro-samples/gl_vk_bk3dthreaded"]
+	path = nvpro-samples/gl_vk_bk3dthreaded
+	url = https://github.com/nvpro-samples/gl_vk_bk3dthreaded.git
+[submodule "nvpro-samples/gl_vk_meshlet_cadscene"]
+	path = nvpro-samples/gl_vk_meshlet_cadscene
+	url = https://github.com/nvpro-samples/gl_vk_meshlet_cadscene.git
+[submodule "nvpro-samples/gl_vk_threaded_cadscene"]
+	path = nvpro-samples/gl_vk_threaded_cadscene
+	url = https://github.com/nvpro-samples/gl_vk_threaded_cadscene.git
+[submodule "nvpro-samples/gl_vk_raytrace_interop"]
+	path = nvpro-samples/gl_vk_raytrace_interop
+	url = https://github.com/nvpro-samples/gl_vk_raytrace_interop.git
+[submodule "nvpro-samples/gl_vk_simple_interop"]
+	path = nvpro-samples/gl_vk_simple_interop
+	url = https://github.com/nvpro-samples/gl_vk_simple_interop.git
+[submodule "nvpro-samples/gl_render_vk_direct_display"]
+	path = nvpro-samples/gl_render_vk_direct_display
+	url = https://github.com/nvpro-samples/gl_render_vk_direct_display.git
+[submodule "nvpro-samples/vk_raytrace"]
+	path = nvpro-samples/vk_raytrace
+	url = https://github.com/nvpro-samples/vk_raytrace.git
+[submodule "nvpro-samples/vk_denoise"]
+	path = nvpro-samples/vk_denoise
+	url = https://github.com/nvpro-samples/vk_denoise.git
+[submodule "nvpro-samples/vk_async_resources"]
+	path = nvpro-samples/vk_async_resources
+	url = https://github.com/nvpro-samples/vk_async_resources.git
+[submodule "nvpro-samples/vk_shaded_gltfscene"]
+	path = nvpro-samples/vk_shaded_gltfscene
+	url = https://github.com/nvpro-samples/vk_shaded_gltfscene.git
+[submodule "nvpro-samples/vk_raytracing_tutorial"]
+	path = nvpro-samples/vk_raytracing_tutorial
+	url = https://github.com/nvpro-samples/vk_raytracing_tutorial.git
+[submodule "nvpro-samples/vk_device_generated_cmds"]
+	path = nvpro-samples/vk_device_generated_cmds
+	url = https://github.com/nvpro-samples/vk_device_generated_cmds.git
