@@ -17,7 +17,6 @@ public:
 protected:
     E_WINDOW_SERVER_TYPE type = GLFW;
     
-    void *
 };
 
 
