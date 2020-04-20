@@ -1,4 +1,7 @@
 *.o
 .vscode/
 .vs/
+*.a
+*.so
+*.out
 
