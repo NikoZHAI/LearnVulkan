@@ -16,14 +16,6 @@ public:
     ~Window();
 };
 
-Window::Window(/* args */)
-{
-}
-
-Window::~Window()
-{
-}
-
 
 } // namespace decor
 
