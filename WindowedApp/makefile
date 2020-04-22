@@ -4,6 +4,10 @@
 
 TARGET_NAME         := libwindowed_app
 
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local
+endif
+
 # compilers
 CC 					:= gcc
 CXX 				:= g++
@@ -18,8 +22,6 @@ LINK_TYPE 			:= STATIC
 PROJ_DIR			:= $(realpath $(CURDIR))
 # build directory
 BUILD_DIR			:= $(PROJ_DIR)/build
-# install directory
-INST_DIR 			:= $(PROJ_DIR)/$(TARGET_NAME)
 # source directory
 SRC_DIR				:= $(PROJ_DIR)/src
 # set vpath
@@ -29,6 +31,8 @@ VPATH 				 = $(SRC_DIR)
 # resolve header files
 HEADER_C			:= $(shell find $(SRC_DIR) -name *.h)
 HEADER_CXX			:= $(shell find $(SRC_DIR) -name *.hpp)
+bind_inc_prefix		:= $(DESTDIR)$(PREFIX)/include/$(shell realpath --relative-to $(SRC_DIR) $(header))
+INSTALLED_HEADERS	:= $(foreach header,$(HEADER_C)$(HEADER_CXX),$(bind_inc_prefix))
 # resolve source files
 SRC_C				:= $(shell find $(SRC_DIR) -name *.c)
 SRC_CXX				:= $(shell find $(SRC_DIR) -name *.cpp)
@@ -69,19 +73,15 @@ endif
 
 # globbing targets
 build_path			:= $(BUILD_DIR)/
-install_path		:= $(INST_DIR)/
-install_lib_path	:= $(join $(install_path),lib/)
-install_inc_path	:= $(join $(install_path),include/)
 target_file_name	:= $(addsuffix $(if $(LINK_SHARED),.so,.a),$(TARGET_NAME))
 TARGET_BUILD		:= $(addprefix $(build_path),$(target_file_name))
-TARGET_INSTALL		:= $(addprefix $(install_lib_path),$(target_file_name))
-# bind output objects to BUILD_DIR
-bind_build_dir		:= $(addprefix $(build_path),$(notdir $(fname)))
-OBJS				:= $(foreach fname,$(OBJ_C) $(OBJ_CXX),$(bind_build_dir))
 #=========================================================================================
 # misc
 RMDIR				:= rm -rf
 MKDIR				:= mkdir -p
+CP					:= cp -rf
+INSTALLD		    := install -d
+INSTALLF		    := install -m 644
 # remove space after separator
 SEP					:=/
 PSEP 				:= $(strip $(SEP))
@@ -102,41 +102,36 @@ $(1)/%.o: %.cpp
 	@echo building $$@...
 	$(HIDE)$(CXX) $(CXXFLAGS) -o $$(subst /,$$(PSEP),$$@) $$(subst /,$$(PSEP),$$<)
 endef
+define generate_header_rules
+$(DESTDIR)$(PREFIX)/include/$(shell realpath --relative-to $(SRC_DIR) $(1)): $(1)
+	@echo copying $$< to $$@:
+	$(HIDE)$(INSTALLF) $$< $$@
+endef
 #=========================================================================================
 
 # recipes
 all: directories $(TARGET_BUILD)
-.PHONY: all directories
+.PHONY: all install directories
 
 ifeq ($(LINK_SHARED),true)
 $(TARGET_BUILD): $(OBJ_C) $(OBJ_CXX)
-	@mkdir -p $(build_path)
-	$(LD) $(LDFLAGS) $^ -o $@
+	$(HIDE)$(LD) $(LDFLAGS) $^ -o $@
 else
 $(TARGET_BUILD): $(OBJ_C) $(OBJ_CXX)
-	@mkdir -p $(build_path)
-	$(AR) $(ARFLAGS) $@ $^
+	$(HIDE)$(AR) $(ARFLAGS) $@ $^
 endif
 
 # generate rules for each object
 $(foreach build_dir,$(BUILD_DIR),$(eval $(call generate_c_rules, $(build_dir))))
 $(foreach build_dir,$(BUILD_DIR),$(eval $(call generate_cxx_rules, $(build_dir))))
+$(foreach header,$(HEADER_C)$(HEADER_CXX),$(eval $(call generate_header_rules, $(header))))
 
-directories: 
+directories:
 	$(HIDE)$(MKDIR) $(subst /,$(PSEP),$(BUILD_DIR))
 
-# install: $(TARGET_BUILD) $(TARGET_HEADERS_C) $(TARGET_HEADERS_CXX)
-# 	@mkdir -p $(install_path) $(install_lib_path)
-# 	@cp $(TARGET_BUILD) $(TARGET_INSTALL)
+install: directories $(TARGET_BUILD) install_directories $(INSTALLED_HEADERS)
+	$(HIDE)$(INSTALLD) $(DESTDIR)$(PREFIX)/lib/
+	$(INSTALLF) $(TARGET_BUILD) $(DESTDIR)$(PREFIX)/lib/
 
-# $(HEADERS_C): %.h
-# 	@mkdir -p $(install_path) $(install_inc_path)
-# 	@cp $^ $(install_inc_path)
-
-# vpath %.h $(SRC_DIR)
-
-# $(HEADERS_CXX): %.hpp
-# 	@mkdir -p $(install_path) $(install_inc_path)
-# 	@cp $^ $(install_inc_path)
-
-# vpath %.hpp $(SRC_DIR)
+install_directories:
+	$(HIDE)$(INSTALLD) $(DESTDIR)$(PREFIX)/include/
