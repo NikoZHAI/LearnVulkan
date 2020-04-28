@@ -132,7 +132,7 @@ install: directories $(TARGET_BUILD) install_directories install_headers
 	$(INSTALLF) $(TARGET_BUILD) $(DESTDIR)$(PREFIX)/lib/
 
 install_headers:
-	for i in $(HEADER_CXX); do \
+	for i in $(HEADER_C) $(HEADER_CXX); do \
 		$(HIDE)$(INSTALLF) $$i $(DESTDIR)$(PREFIX)/include/$(TARGET_NAME)/$$(realpath --relative-to $(SRC_DIR) $$i); \
 	done
 
@@ -140,7 +140,7 @@ install_directories:
 	$(HIDE)$(INSTALLD) $(DESTDIR)$(PREFIX)/include/$(TARGET_NAME)/
 
 uninstall:
-	$(HIDE)$(RMDIR) $(DESTDIR)$(PREFIX)/lib/$(TARGET_NAME)
+	$(HIDE)$(RMDIR) $(DESTDIR)$(PREFIX)/lib/$(notdir $(TARGET_BUILD))
 	$(HIDE)$(RMDIR) $(DESTDIR)$(PREFIX)/include/$(TARGET_NAME)
 
 clean:
