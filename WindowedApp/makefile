@@ -2,7 +2,8 @@
 #	huanyu <huanyu.zhai@outlook.com>
 #=========================================================================================
 
-TARGET_NAME         := libwindowed_app
+LIBRARY_NAME        := WindowedApp
+TARGET_NAME         := libWindowedApp
 
 ifeq ($(PREFIX),)
     PREFIX := /usr/local
@@ -31,8 +32,6 @@ VPATH 				 = $(SRC_DIR)
 # resolve header files
 HEADER_C			:= $(shell find $(SRC_DIR) -name *.h)
 HEADER_CXX			:= $(shell find $(SRC_DIR) -name *.hpp)
-bind_inc_prefix		:= $(DESTDIR)$(PREFIX)/include/$(shell realpath --relative-to $(SRC_DIR) $(header))
-INSTALLED_HEADERS	:= $(foreach header,$(HEADER_C)$(HEADER_CXX),$(bind_inc_prefix))
 # resolve source files
 SRC_C				:= $(shell find $(SRC_DIR) -name *.c)
 SRC_CXX				:= $(shell find $(SRC_DIR) -name *.cpp)
@@ -102,16 +101,15 @@ $(1)/%.o: %.cpp
 	@echo building $$@...
 	$(HIDE)$(CXX) $(CXXFLAGS) -o $$(subst /,$$(PSEP),$$@) $$(subst /,$$(PSEP),$$<)
 endef
-define generate_header_rules
-$(DESTDIR)$(PREFIX)/include/$(shell realpath --relative-to $(SRC_DIR) $(1)): $(1)
-	@echo copying $$< to $$@:
-	$(HIDE)$(INSTALLF) $$< $$@
+define print_arg
+$(1):
+	@echo copying $$@:
 endef
 #=========================================================================================
 
 # recipes
 all: directories $(TARGET_BUILD)
-.PHONY: all install directories
+.PHONY: all install directories clean uninstall
 
 ifeq ($(LINK_SHARED),true)
 $(TARGET_BUILD): $(OBJ_C) $(OBJ_CXX)
@@ -124,14 +122,26 @@ endif
 # generate rules for each object
 $(foreach build_dir,$(BUILD_DIR),$(eval $(call generate_c_rules, $(build_dir))))
 $(foreach build_dir,$(BUILD_DIR),$(eval $(call generate_cxx_rules, $(build_dir))))
-$(foreach header,$(HEADER_C)$(HEADER_CXX),$(eval $(call generate_header_rules, $(header))))
+
 
 directories:
 	$(HIDE)$(MKDIR) $(subst /,$(PSEP),$(BUILD_DIR))
 
-install: directories $(TARGET_BUILD) install_directories $(INSTALLED_HEADERS)
+install: directories $(TARGET_BUILD) install_directories install_headers
 	$(HIDE)$(INSTALLD) $(DESTDIR)$(PREFIX)/lib/
 	$(INSTALLF) $(TARGET_BUILD) $(DESTDIR)$(PREFIX)/lib/
 
+install_headers:
+	for i in $(HEADER_CXX); do \
+		$(HIDE)$(INSTALLF) $$i $(DESTDIR)$(PREFIX)/include/$(TARGET_NAME)/$$(realpath --relative-to $(SRC_DIR) $$i); \
+	done
+
 install_directories:
-	$(HIDE)$(INSTALLD) $(DESTDIR)$(PREFIX)/include/
+	$(HIDE)$(INSTALLD) $(DESTDIR)$(PREFIX)/include/$(TARGET_NAME)/
+
+uninstall:
+	$(HIDE)$(RMDIR) $(DESTDIR)$(PREFIX)/lib/$(TARGET_NAME)
+	$(HIDE)$(RMDIR) $(DESTDIR)$(PREFIX)/include/$(TARGET_NAME)
+
+clean:
+	$(HIDE)$(RMDIR) $(BUILD_DIR)
