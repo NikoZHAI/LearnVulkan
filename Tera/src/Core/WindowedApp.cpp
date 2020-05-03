@@ -2,7 +2,7 @@
 #include <cstdlib>
 
 
-namespace decor
+namespace tera
 {
 
 
@@ -32,4 +32,4 @@ int WindowedApp::run()
 }
 
 
-} // namespace decor
+} // namespace tera

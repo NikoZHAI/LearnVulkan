@@ -1,12 +1,12 @@
 #pragma once
-#ifndef DC_WINDOWED_APP_INCLUDED
-#define DC_WINDOWED_APP_INCLUDED
+#ifndef TERA_WINDOWED_APP_INCLUDED
+#define TERA_WINDOWED_APP_INCLUDED
 
 
 #include "Window.hpp"
 
 
-namespace decor
+namespace tera
 {
 
 
@@ -22,7 +22,7 @@ public:
 };
 
 
-} // namespace decor
+} // namespace tera
 
 
 #endif

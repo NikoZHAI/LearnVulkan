@@ -1,9 +1,9 @@
 #pragma once
-#ifndef DC_WINDOW_INCLUDED
-#define DC_WINDOW_INCLUDED
+#ifndef TERA_WINDOW_INCLUDED
+#define TERA_WINDOW_INCLUDED
 
 
-namespace decor
+namespace tera
 {
 
 
@@ -17,6 +17,6 @@ public:
 };
 
 
-} // namespace decor
+} // namespace tera
 
 #endif

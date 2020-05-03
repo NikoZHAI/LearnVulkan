@@ -1,11 +1,16 @@
+#pragma once
 #ifndef SV_APP
 #define SV_APP
+
+
+#include <tera/Core/WindowedApp.hpp>
+
 
 namespace sv
 {
 
 
-class App
+class App : public tera::WindowedApp
 {
 protected:
 

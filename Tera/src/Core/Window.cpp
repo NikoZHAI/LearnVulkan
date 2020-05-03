@@ -1,7 +1,7 @@
 #include "Window.hpp"
 
 
-namespace decor
+namespace tera
 {
 
 
@@ -14,4 +14,4 @@ Window::~Window()
 }
 
 
-} // namespace decor
+} // namespace tera
