@@ -1,5 +1,5 @@
 #include "Logger.hpp"
-#include "Common/errMsg.hpp"
+#include "../Common/errMsg.hpp"
 
 
 #include <Poco/Logger.h>
@@ -12,10 +12,9 @@ namespace tera
 {
 
 // init static variables
-typename Logger::Level          Logger::m_level             = Logger::Level::INFO;
-// std::string                     Logger::m_fnameDefault      = "log_tera_system.txt";
-std::vector<std::string>        Logger::m_loggerNames;
-std::vector<Poco::Logger&>      Logger::m_loggers;
+typename Logger::Level                                  Logger::m_level             = Logger::Level::INFO;
+std::vector<std::string>                                Logger::m_loggerNames       = {};
+std::vector<std::reference_wrapper<Poco::Logger> >      Logger::m_loggers           = {};
 
 
 
@@ -112,7 +111,7 @@ void Logger::fatal(const char* message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_fatal(logger, message);
+        poco_fatal(logger.get(), message);
     }
 }
 
@@ -124,7 +123,7 @@ void Logger::fatal(const std::string& message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_fatal(logger, message);
+        poco_fatal(logger.get(), message);
     }
 }
 
@@ -136,7 +135,7 @@ void Logger::critical(const char* message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_critical(logger, message);
+        poco_critical(logger.get(), message);
     }
 }
 
@@ -148,7 +147,7 @@ void Logger::critical(const std::string& message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_critical(logger, message);
+        poco_critical(logger.get(), message);
     }
 }
 
@@ -160,7 +159,7 @@ void Logger::error(const char* message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_error(logger, message);
+        poco_error(logger.get(), message);
     }
 }
 
@@ -172,7 +171,7 @@ void Logger::error(const std::string& message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_error(logger, message);
+        poco_error(logger.get(), message);
     }
 }
 
@@ -185,7 +184,7 @@ void Logger::warning(const char* message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_warning(logger, message);
+        poco_warning(logger.get(), message);
     }
 }
 
@@ -197,7 +196,7 @@ void Logger::warning(const std::string& message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_warning(logger, message);
+        poco_warning(logger.get(), message);
     }
 }
 
@@ -209,7 +208,7 @@ void Logger::info(const char* message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_information(logger, message);
+        poco_information(logger.get(), message);
     }
 }
 
@@ -221,7 +220,7 @@ void Logger::info(const std::string& message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_information(logger, message);
+        poco_information(logger.get(), message);
     }
 }
 
@@ -233,7 +232,7 @@ void Logger::debug(const char* message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_debug(logger, message);
+        poco_debug(logger.get(), message);
     }
 }
 
@@ -245,7 +244,7 @@ void Logger::debug(const std::string& message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_debug(logger, message);
+        poco_debug(logger.get(), message);
     }
 }
 
@@ -257,7 +256,7 @@ void Logger::trace(const char* message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_trace(logger, message);
+        poco_trace(logger.get(), message);
     }
 }
 
@@ -269,7 +268,7 @@ void Logger::trace(const std::string& message)
     }
 
     for ( auto &&logger : m_loggers ) {
-        poco_trace(logger, message);
+        poco_trace(logger.get(), message);
     }
 }
 

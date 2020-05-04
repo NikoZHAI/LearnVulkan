@@ -5,6 +5,10 @@
 
 #include <Poco/Exception.h>
 
+
+namespace tera
+{
+
 #ifdef _DEBUG
 
 	#include <sstream>
@@ -34,6 +38,9 @@
 	}
 
 #endif
+
+}
+
 
 
 #endif

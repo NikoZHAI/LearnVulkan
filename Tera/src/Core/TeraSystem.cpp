@@ -1,13 +1,22 @@
 #include "TeraSystem.hpp"
+#include "Logger.hpp"
+#include "../Common/errMsg.hpp"
+
+#include <Poco/Path.h>
+#include <Poco/Format.h>
 
 #include <algorithm>
-#include <Poco/Path.h>
 
 
 namespace tera {
 
 bool            TeraSystem::m_sysInit           = false;
 std::string     TeraSystem::m_exePath           = "";
+
+
+// callback for glfw errors
+static void onErrorGlfwCb(int code, const char* mess)
+{ Logger::error( Poco::format("glfw(code = %d): %s", code, mess) ); }
 
 
 void TeraSystem::pollEvents()
@@ -42,9 +51,33 @@ void TeraSystem::init(const char* exeFileNameWPath, const char* projectName)
     // init the glfw library
     int result          = glfwInit();
     if (!result) {
-        
+        Logger::fatal("could not init glfw, exiting");
+        errMsg( "GLFW initialization failed" );
     }
+
+    glfwSetErrorCallback(onErrorGlfwCb);
+
+    m_sysInit = true;
+
+    // init per platform
+    platformInit();
 }
+
+
+void TeraSystem::deinit()
+{
+    platformDeinit();
+    glfwTerminate();
+}
+
+
+std::string TeraSystem::exePath()
+{ return m_exePath; }
+
+
+bool TeraSystem::isInited()
+{ return m_sysInit; }
+
 
 
 }
