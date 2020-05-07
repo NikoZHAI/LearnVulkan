@@ -9,6 +9,10 @@ if(NOT (CMAKE_SIZEOF_VOID_P EQUAL 8))
     message( FATAL_ERROR "64-bit builds are mandatory for this framework" )
 endif()
 
+set(GLFW_PATH $ENV{GLFW_HOME})
+
+find_library(glfw3 NAMES glfw3 HINTS ${GLFW_PATH}/lib)
+
 
 # glob sources
 set(CMAKE_SOURCE_DIR ./src)
@@ -27,11 +31,12 @@ set_target_properties(tera
     PROPERTIES LINKER_LANGUAGE CXX
 )
 
-# glfw
-set(glfw3 glfw)
-
 target_link_libraries(tera
     ${PLATFORM_LIBRARIES} ${glfw3} 
+)
+
+target_include_directories(tera
+    PUBLIC ${GLFW_PATH}/include
 )
 
 # install rules

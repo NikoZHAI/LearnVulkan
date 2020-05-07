@@ -152,4 +152,95 @@ bool Window::open(int posX, int posY, int width, int height, const char* title, 
 }
 
 
+void Window::deinit()
+{
+    glfwDestroyWindow(m_internal);
+    m_internal      = nullptr;
+    m_windowSize[1] = m_windowSize[0] = 0;
+    m_windowName.clear();
+}
+
+
+void Window::close()
+{
+    glfwSetWindowShouldClose(m_internal, GLFW_TRUE);
+}
+
+
+void Window::setTitle(const char* title)
+{
+    glfwSetWindowTitle(m_internal, title);
+}
+
+
+void Window::maximize()
+{
+    glfwMaximizeWindow(m_internal);
+}
+
+
+void Window::restore()
+{
+    glfwRestoreWindow(m_internal);
+}
+
+
+void Window::minimize()
+{
+    glfwIconifyWindow(m_internal);
+}
+
+
+void Window::setWindowPos(int x, int y)
+{
+    glfwSetWindowPos(m_internal, x, y);
+}
+
+
+void Window::setWindowSize(int w, int h)
+{
+    glfwSetWindowSize(m_internal, w, h);
+}
+
+
+std::string Window::openFileDialog(const char* title, const char* exts)
+{
+    return TeraSystem::windowOpenFileDialog(m_internal, title, exts);
+}
+
+
+void Window::screenshot(const char* filename)
+{
+    TeraSystem::windowScreenshot(m_internal, filename);
+}
+
+
+void Window::clear(uint32_t r, uint32_t g, uint32_t b)
+{
+    TeraSystem::windowClear(m_internal, r, g, b);
+}
+
+
+void Window::setFullScreen(bool on)
+{
+    if (on == m_isFullScreen) return;
+
+    GLFWmonitor*            monitor     = glfwGetWindowMonitor(m_internal);
+    const GLFWvidmode*      mode        = glfwGetVideoMode(monitor);
+    
+    if (on) {
+        glfwGetWindowPos(m_internal, &m_preFullScreenPos[0], &m_preFullScreenPos[1]);
+        glfwGetWindowPos(m_internal, &m_preFullScreenSize[0], &m_preFullScreenSize[1]);
+        glfwSetWindowMonitor(m_internal, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        glfwSetWindowAttrib(m_internal, GLFW_RESIZABLE, GLFW_FALSE);
+        glfwSetWindowAttrib(m_internal, GLFW_DECORATED, GLFW_FALSE);
+    } else {
+        glfwSetWindowMonitor(m_internal, nullptr, m_preFullScreenPos[0], m_preFullScreenPos[1], m_preFullScreenSize[0], m_preFullScreenSize[1], 0);
+        glfwSetWindowAttrib(m_internal, GLFW_RESIZABLE, GLFW_TRUE);
+        glfwSetWindowAttrib(m_internal, GLFW_DECORATED, GLFW_TRUE);
+    }
+    m_isFullScreen = on;
+}
+
+
 } // namespace tera
