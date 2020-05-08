@@ -10,14 +10,46 @@ if(NOT (CMAKE_SIZEOF_VOID_P EQUAL 8))
 endif()
 
 set(GLFW_PATH $ENV{GLFW_HOME})
+set(POCO_PATH $ENV{POCO_HOME})
 
-find_library(glfw3 NAMES glfw3 HINTS ${GLFW_PATH}/lib)
+
+message(STATUS "GLFW_PATH: ${GLFW_PATH}")
+
+# always
+FIND_PACKAGE(Threads REQUIRED)
+find_library(glfw3
+    NAMES glfw3 HINTS ${GLFW_PATH}/lib
+)
+find_library(PocoFoundation
+    NAMES PocoFoundation HINTS ${POCO_PATH}/*lib*
+)
+find_library(PocoUtil
+    NAMES PocoUtil HINTS ${POCO_PATH}/*lib*
+)
+
+
+if(NOT MSVC)
+	# set(CMAKE_C_FLAGS )
+	set(CMAKE_C_FLAGS_DEBUG "-Og -D_DEBUG -g")
+	set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG")
+	# set(CMAKE_CXX_FLAGS "-Wall")
+	set(CMAKE_CXX_FLAGS_DEBUG "-Og -D_DEBUG -g")
+	set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+endif()
 
 
 # glob sources
 set(CMAKE_SOURCE_DIR ./src)
 set(CORE_DIR ${CMAKE_SOURCE_DIR}/Core)
 file(GLOB CORE_SOURCES ${CORE_DIR}/*.cpp ${CORE_DIR}/*.c ${CORE_DIR}/*.hpp ${CORE_DIR}/*.h)
+
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 # library name
 set(library_name "tera")
@@ -31,12 +63,19 @@ set_target_properties(tera
     PROPERTIES LINKER_LANGUAGE CXX
 )
 
-target_link_libraries(tera
-    ${PLATFORM_LIBRARIES} ${glfw3} 
+target_link_libraries(tera PUBLIC
+    ${glfw3}
+    ${PocoFoundation}
+    ${PocoUtil}
+    ${CMAKE_THREAD_LIBS_INIT}  # -lpthread -lm
+    ${CMAKE_DL_LIBS} # for vulkan.c.o
+    ${PLATFORM_LIBRARIES}
 )
 
 target_include_directories(tera
     PUBLIC ${GLFW_PATH}/include
+    ${POCO_PATH}/Foundation/include
+    ${POCO_PATH}/Util/include
 )
 
 # install rules
@@ -53,3 +92,11 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/ # source directory
 
 set_target_properties(tera PROPERTIES OUTPUT_NAME ${library_name})
 message(STATUS "Tera library name: ${library_name}")
+
+
+##########################################################################################
+## Project Macros                                                                     ####
+##########################################################################################
+add_compile_definitions(
+	POCO_STATIC
+)

@@ -6,8 +6,6 @@
 #include <Poco/Exception.h>
 
 
-namespace tera
-{
 
 #ifdef _DEBUG
 
@@ -20,6 +18,8 @@ namespace tera
 		#define __FUNC__ ""
 	#endif
 
+namespace tera
+{
 	inline void
 	_errMsg(const std::string& msg, const char* file, int line, const char* func) {
 		if (msg.size() == 0) return;
@@ -28,19 +28,21 @@ namespace tera
 		throw Poco::Exception(buff.str());
 	}
 	#define errMsg(msg) (_errMsg(msg, __FILE__, __LINE__, __FUNC__))
+}
 #else
 	#include <string>
 
+
+namespace tera
+{
 	inline void
 	errMsg(const std::string& msg) {
 		if (msg.size() == 0) return;
 		throw Poco::Exception(msg);
 	}
-
-#endif
-
 }
 
+#endif
 
 
 #endif
