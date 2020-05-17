@@ -70,8 +70,8 @@ target_include_directories(SimViewer PUBLIC
     ${TERA_HOME}/include
     ${GLFW_PATH}/include
     ${POCO_PATH}/include
-    ${POCO_PATH}/Foundation/include
-    ${POCO_PATH}/Util/include
+    # ${POCO_PATH}/Foundation/include
+    # ${POCO_PATH}/Util/include
 )
 
 set_target_properties(SimViewer
@@ -83,13 +83,12 @@ if (NOT MSVC)
 endif()
 
 target_link_libraries(SimViewer PUBLIC
-    ${PLATFORM_LIBRARIES}
     ${tera}
     ${glfw3}
-    # ${PocoUtil}
-    # ${PocoFoundation}
-    PocoUtil
-    PocoFoundation
+    ${PocoFoundation}
+    ${PocoUtil}
+    X11
+    ${PLATFORM_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}  # -lpthread -lm
     ${CMAKE_DL_LIBS} # for vulkan.c.o
 )

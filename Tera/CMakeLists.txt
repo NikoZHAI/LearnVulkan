@@ -64,18 +64,20 @@ set_target_properties(tera
 )
 
 target_link_libraries(tera PUBLIC
-    ${glfw3}
-    ${PocoFoundation}
-    ${PocoUtil}
     ${CMAKE_THREAD_LIBS_INIT}  # -lpthread -lm
     ${CMAKE_DL_LIBS} # for vulkan.c.o
     ${PLATFORM_LIBRARIES}
+    ${glfw3}
+    ${PocoFoundation}
+    ${PocoUtil}
+    X11
 )
 
 target_include_directories(tera
     PUBLIC ${GLFW_PATH}/include
-    ${POCO_PATH}/Foundation/include
-    ${POCO_PATH}/Util/include
+    ${POCO_PATH}/include
+    # ${POCO_PATH}/Foundation/include
+    # ${POCO_PATH}/Util/include
 )
 
 # install rules
