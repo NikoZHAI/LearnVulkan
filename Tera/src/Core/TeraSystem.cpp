@@ -16,7 +16,7 @@ std::string     TeraSystem::m_exePath           = "";
 
 // callback for glfw errors
 static void onErrorGlfwCb(int code, const char* mess)
-{ Logger::error( Poco::format("glfw(code = %d): %s", code, mess) ); }
+{ Logger::error( Poco::format("glfw(code = %d): %s", code, std::string(mess)) ); }
 
 
 void TeraSystem::pollEvents()
@@ -49,13 +49,13 @@ void TeraSystem::init(const char* exeFileNameWPath, const char* projectName)
     m_exePath           = Poco::Path(exeFileNameWPath).absolute().parent().toString();
 
     // init the glfw library
+    glfwSetErrorCallback(onErrorGlfwCb);
     int result          = glfwInit();
     if (!result) {
         Logger::fatal("could not init glfw, exiting");
         errMsg( "GLFW initialization failed" );
     }
 
-    glfwSetErrorCallback(onErrorGlfwCb);
 
     m_sysInit = true;
 

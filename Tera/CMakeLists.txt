@@ -21,11 +21,17 @@ find_library(glfw3
     NAMES glfw3 HINTS ${GLFW_PATH}/lib
 )
 find_library(PocoFoundation
-    NAMES PocoFoundation HINTS ${POCO_PATH}/*lib*
+    NAMES PocoFoundation HINTS ${POCO_PATH}/lib
 )
 find_library(PocoUtil
-    NAMES PocoUtil HINTS ${POCO_PATH}/*lib*
+    NAMES PocoUtil HINTS ${POCO_PATH}/lib
 )
+
+
+message(STATUS "POCO_PATH: ${POCO_PATH}")
+message(STATUS "PocoFoundation: ${PocoFoundation}")
+message(STATUS "PocoUtil: ${PocoUtil}")
+message(STATUS "glfw3: ${glfw3}")
 
 
 if(NOT MSVC)
