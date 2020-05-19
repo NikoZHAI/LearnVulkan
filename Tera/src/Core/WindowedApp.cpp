@@ -224,10 +224,7 @@ void WindowedApp::leave()
 int WindowedApp::run()
 {
     if ( !m_config.winsize[0] ) m_config.winsize[0] = 800;
-    if ( !m_config.winsize[1] ) m_config.winsize[1] = 800;
-
-    int winpos[2]{50, 50};
-    int winsize[2]{800, 600};
+    if ( !m_config.winsize[1] ) m_config.winsize[1] = 600;
 
     parseCmd(0, nullptr, ".");
     if (!validateCmd())
@@ -249,7 +246,7 @@ int WindowedApp::run()
     contextInit();
 
 
-    bool run_ = begin();
+    bool run_ = !begin();
 
     if (run_)
     {
