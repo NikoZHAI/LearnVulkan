@@ -188,6 +188,8 @@ public:
         KEY_RIGHT_SUPER                 = GLFW_KEY_RIGHT_SUPER,
         KEY_MENU                        = GLFW_KEY_MENU,
         KEY_LAST                        = GLFW_KEY_LAST,
+        
+        KEY_COUNT
     };
 
     enum KeyModifiers

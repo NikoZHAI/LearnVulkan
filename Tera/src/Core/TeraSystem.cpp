@@ -56,11 +56,12 @@ void TeraSystem::init(const char* exeFileNameWPath, const char* projectName)
         errMsg( "GLFW initialization failed" );
     }
 
-
     m_sysInit = true;
 
     // init per platform
     platformInit();
+
+    Logger::info("TeraSystem::init():......done");
 }
 
 

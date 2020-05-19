@@ -39,10 +39,7 @@ int main(int argc, char const *argv[])
     
     // init tera system
     TeraSystem::init(argv[0], "SimViewer");
-    
-    Logger::info("------ TeraSystem init ------");
 
-    Logger::info("------ svMain() init ------");
-
+    Logger::info("app.run()......starts");
     return app.run(argc, argv);
 }
