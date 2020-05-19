@@ -32,15 +32,28 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
+
     WindowState             m_windowState;
     // [TODO] profiler
     bool                    m_timeInTitle           = false;
     bool                    m_doSwap                = false;
 
+    // ctor
+    WindowedApp();    
+    // dtor
+    ~WindowedApp();
+
+
     // [TODO] parameter list
 
     // WindowedApp driver method
     int run();
+    // leave WindowedApp
+    void leave();
+    // void        parseConfigFile(const char* filename);
+    // std::string specialStrings(const char* original);
+    void setVsync(bool sync);
+    bool getVsync() const { return m_vsync; };
 
 
     //////////////////////////////////////////////////////////////////////////
@@ -64,13 +77,8 @@ public:
     virtual bool mouseWheel (int delta)                             { return false; }
     virtual bool keyButton (int button, int action, int modifier)   { return false; }
     virtual bool keyChar (int button)                               { return false; }
-
-    virtual void parseConfig(int argc, const char** argv, const std::string& path) {
-
-    }
-    virtual bool validateConfig() {
-
-    }
+    virtual bool validateCmd()                                      { return true;  }
+    virtual void parseCmd(int argc, const char** argv, const std::string& path) { }
 
     // additional special-purpose callbacks
     virtual void postProfiling() {}
@@ -137,8 +145,8 @@ protected:
 
 
     bool                    m_active                = false;
-    bool                    m_vsync                 = false;
     bool                    m_hadScreenshot         = false;
+    bool                    m_vsync                 = false;
     Config                  m_config;
 //  Benchmark               m_benchmark;
 
