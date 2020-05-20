@@ -67,7 +67,7 @@ public:
     // tear down the scene (triggered bt ESC/window close)
     virtual void end() {}
     // primary logic<-->draw loop here
-    virtual void loop(double time) {}
+    virtual void think(double time) {}
     // reacte on window resizes here
     virtual void resize(int width, int height) {}
     
@@ -96,6 +96,7 @@ public:
     virtual void contextInit() {}
     virtual void contextDeinit() {}
     virtual const char* contextGetDeviceName() { return nullptr; }
+    virtual std::size_t contextGetDeviceCount() { return 0; }
 
     virtual void swapResize(int width, int height) {}
     virtual void swapPrepare() {}
@@ -137,6 +138,7 @@ protected:
         uint32_t            frameLimit              = 0;
         uint32_t            timerLimit              = 0;
         uint32_t            clearColor[3]           = {127,0,0};
+        uint32_t            deviceCount             = 0;
         std::string         dumpatexitFilename;
         std::string         screenshotFilename;
         std::string         logFilename;

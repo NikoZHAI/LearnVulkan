@@ -5,6 +5,7 @@
 
 #include <Poco/Format.h>
 #include <cstdlib>
+#include <cstring>
 
 
 namespace tera
@@ -232,6 +233,7 @@ int WindowedApp::run()
         return EXIT_FAILURE;
     }
 
+    // try opening Window
     if (!Window::open(m_config.winpos[0], m_config.winpos[1], m_config.winsize[0], m_config.winsize[1], "Test Window", false))
     {
         Logger::error("Could not create window...");
@@ -240,19 +242,50 @@ int WindowedApp::run()
     m_windowState.m_viewSize[0] = m_config.winsize[0];
     m_windowState.m_viewSize[1] = m_config.winsize[1];
 
-
     // init graphic API contexts
     postConfigPreContext();
     contextInit();
 
+    // parameter callback here
 
-    bool run_ = !begin();
+    // print device info
+    if (m_config.deviceCount)
+    {
+        for(uint32_t i = 0; i < m_config.deviceCount; ++i)
+        {
+            std::string deviceName(contextGetDeviceName());
+            Logger::info(Poco::format("DEVICE: %s", deviceName));
+        }
+    }
+
+    // init benchmark if profiling
+
+    setVsync(m_config.vsyncState);
+
+    bool run_   = !begin();   // TODO
+    m_active    = true;
+
+    bool quickExit = false;
+    if (m_config.frameLimit)
+    {
+        quickExit = true;
+    }
+
+
+    double timeStart = getTime();
+    double timeBegin = getTime();
+    double frames    = 0;
+
+    // buff Vsync state
+    bool lastVsync = m_vsync;
+
+    double lastProfilerPrintTime = 0;
 
     if (run_)
     {
-        bool wasClosed = false;
         while (pollEvents())
         {
+            bool wasClosed = false;
             while(!isOpen())
             {
                 TeraSystem::waitEvents();
@@ -262,11 +295,81 @@ int WindowedApp::run()
             {
                 continue;
             }
-            /* code */
+
+            // do vsync            
+            // if(m_windowState.onPress(KEY_V))
+            // {
+            //     setVsync(!m_vsync);
+            // }
+
+            {
+                // do benchmark
+                if (m_doSwap)
+                {
+                    swapPrepare();
+                }
+                {
+                    // render
+                    think(getTime() - timeStart);
+                }
+                std::memset(m_windowState.m_keyToggled, 0 , sizeof(m_windowState.m_keyToggled));
+                if (m_doSwap)
+                {
+                    swapBuffers();
+                }
+            }
+
+            frames++;
+            
+            double timeCurrent = getTime();
+            double timeDelta   = timeCurrent - timeBegin;
+            if (timeDelta > double(m_config.intervalSeconds) || lastVsync != m_vsync || m_config.frameLimit == 1 )
+            {
+                if (lastVsync != m_vsync)
+                {
+                    timeDelta = 0;
+                }
+
+                if (m_timeInTitle)
+                {
+
+                }
+
+                if (m_config.frameLimit == 1)
+                {
+                    Logger::info(Poco::format("frametime: %.2f ms", (timeDelta * 1000.0 / (frames))));
+                }
+
+                // reset
+                frames      = 0;
+                timeBegin   = timeCurrent;
+                lastVsync   = m_vsync;
+            }
+
+            if (m_windowState.m_keyPressed[KEY_ESCAPE] || m_config.frameLimit == 1) {
+                break;
+            }
+            
+            if (m_config.frameLimit) {
+                m_config.frameLimit--;
+            }
         }
     }
 
-    return EXIT_SUCCESS;
+    // exit screenshot
+
+    if (quickExit)
+    {
+        // exit(0);
+        return EXIT_SUCCESS;
+    }
+
+    end();
+    m_active = false;
+    contextDeinit();
+    postEnd();
+
+    return run_ ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 
