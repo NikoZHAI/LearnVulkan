@@ -39,7 +39,7 @@ public:
     bool                    m_doSwap                = false;
 
     // ctor
-    WindowedApp();    
+    WindowedApp();
     // dtor
     ~WindowedApp();
 
@@ -64,11 +64,11 @@ public:
 
     // setup scene (this is executed after window/context creation)
     virtual bool begin() { return false; }
-    // tear down the scene (triggered bt ESC/window close)
+    // tear down the scene (triggered by ESC/window close)
     virtual void end() {}
     // primary logic<-->draw loop here
     virtual void think(double time) {}
-    // reacte on window resizes here
+    // react on window resizes here
     virtual void resize(int width, int height) {}
     
     // return true if desired to prevent m_windowState updates
