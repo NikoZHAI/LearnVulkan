@@ -16,26 +16,18 @@ namespace tera
  * WindowedAppVk derives from tera::WindowedApp, and is essentially based on the 
  * 
  */
-
-
 class WindowedAppVk : public WindowedApp
 {
 public:
     WindowedAppVk(bool doSwap = true)
+    { m_doSwap = doSwap; }
 
 
-    ~WindowedAppVk();
+public:
+    bool            m_swapVsync;
+    
+
 };
-
-
-WindowedAppVk::WindowedAppVk(bool doSwap)
-    : WindowedApp(doSwap)
-{}
-
-
-WindowedAppVk::~WindowedAppVk()
-{
-}
 
 
 } // namespace tera
