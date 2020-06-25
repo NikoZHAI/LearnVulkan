@@ -65,7 +65,7 @@ public:
     std::vector<VkExtensionProperties>              getInstanceExtensions();
     std::vector<VkLayerProperties>                  getInstanceLayers();
     std::vector<VkExtensionProperties>              getDeviceExtensions(VkPhysicalDevice physicalDevice);
-    
+
     bool hasMandatoryExtensions(VkPhysicalDevice physicalDevice, const ContextCreateInfo& info, bool bVerbose);
     bool setGTCQueueWithPresent(VkSurfaceKHR surface);
     uint32_t getQueueFamily(VkQueueFlags flagsSupported, VkQueueFlags flagsDisabled = 0, VkSurfaceKHR surface = VK_NULL_HANDLE);
@@ -119,7 +119,7 @@ protected:
     std::vector<const char*>                    m_deviceExtensionsEnabled;
 };
 
-    
+
 }
 
 
